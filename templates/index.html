@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EcoSort AI — Smart Waste Management Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.3/chart.umd.min.js"></script>
+<link rel="stylesheet" href="static/css/style.css" />
+</head>
+<body>
+
+  <div class="app">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="logo">🌿 <span>EcoSort AI</span></div>
+        <div class="logo-sub">Smart Waste Management</div>
+      </div>
+
+      <nav class="nav">
+        <a href="#" class="nav-item active" data-section="dashboard">
+          <span class="nav-icon">▣</span> Dashboard
+        </a>
+        <a href="#bins" class="nav-item" data-section="bins">
+          <span class="nav-icon">🗑</span> Smart Bins
+        </a>
+        <a href="#scanner" class="nav-item" data-section="scanner">
+          <span class="nav-icon">📷</span> AI Scanner
+        </a>
+        <a href="#analytics" class="nav-item" data-section="analytics">
+          <span class="nav-icon">📈</span> Analytics
+        </a>
+        <a href="#" class="nav-item" data-section="history">
+          <span class="nav-icon">🕓</span> History
+        </a>
+        <a href="#" class="nav-item" data-section="reports">
+          <span class="nav-icon">📄</span> Reports
+        </a>
+        <a href="#" class="nav-item" data-section="settings">
+          <span class="nav-icon">⚙</span> Settings
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="go-green-card">
+          <div class="go-green-illustration">🌍</div>
+          <div class="go-green-title">Go Green</div>
+          <div class="go-green-sub">Every sort counts.</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN ============ -->
+    <main class="main">
+
+      <!-- Top bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h1>Dashboard</h1>
+          <span class="topbar-date" id="today-date"></span>
+        </div>
+        <div class="topbar-right">
+          <div class="search-box">
+            <span class="search-icon">⌕</span>
+            <input type="text" placeholder="Search bins, reports, waste types…" />
+          </div>
+          <button class="icon-btn" aria-label="Notifications">
+            🔔 <span class="notif-dot"></span>
+          </button>
+          <div class="profile">
+            <div class="avatar">EA</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- 2. Weekly Waste Summary -->
+      <section class="summary-section fade-up">
+        <div class="section-heading">
+          <h2>Weekly Waste Summary</h2>
+          <span class="section-sub">Auto-refreshes every collection cycle</span>
+        </div>
+
+        <div class="summary-grid">
+          <div class="stat-card" data-stream="plastic">
+            <div class="stat-icon-wrap plastic">♻️</div>
+            <div class="stat-info">
+              <div class="stat-label">Plastic</div>
+              <div class="stat-value" data-count="420">0 kg</div>
+              <div class="stat-change up">+18%</div>
+            </div>
+          </div>
+
+          <div class="stat-card" data-stream="organic">
+            <div class="stat-icon-wrap organic">🍌</div>
+            <div class="stat-info">
+              <div class="stat-label">Organic</div>
+              <div class="stat-value" data-count="280">0 kg</div>
+              <div class="stat-change up">+12%</div>
+            </div>
+          </div>
+
+          <div class="stat-card" data-stream="ewaste">
+            <div class="stat-icon-wrap ewaste">🔋</div>
+            <div class="stat-info">
+              <div class="stat-label">E-Waste</div>
+              <div class="stat-value" data-count="90">0 kg</div>
+              <div class="stat-change up">+5%</div>
+            </div>
+          </div>
+
+          <div class="stat-card" data-stream="hazard">
+            <div class="stat-icon-wrap hazard">🧪</div>
+            <div class="stat-info">
+              <div class="stat-label">Hazardous</div>
+              <div class="stat-value" data-count="40">0 kg</div>
+              <div class="stat-change down">-3%</div>
+            </div>
+          </div>
+
+          <div class="stat-card highlight" data-stream="total">
+            <div class="stat-icon-wrap total">⚖️</div>
+            <div class="stat-info">
+              <div class="stat-label">Total Waste</div>
+              <div class="stat-value" data-count="1284">0 kg</div>
+              <div class="stat-change neutral">this week</div>
+            </div>
+          </div>
+
+          <div class="stat-card highlight" data-stream="co2">
+            <div class="stat-icon-wrap co2">🌱</div>
+            <div class="stat-info">
+              <div class="stat-label">CO₂ Saved</div>
+              <div class="stat-value" data-count="320">0 kg</div>
+              <div class="stat-change neutral">this week</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3 & 4. Smart Bins + Bin Details -->
+      <section class="bins-section fade-up" id="bins">
+        <div class="section-heading">
+          <h2>Smart Bins</h2>
+          <span class="section-sub">Live IoT simulation — click a bin for details</span>
+        </div>
+
+        <div class="bins-layout">
+          <div class="bins-grid" id="bins-grid"><!-- injected by script.js --></div>
+
+          <div class="bin-details" id="bin-details">
+            <div class="bin-details-header">
+              <span class="bin-details-eyebrow">Selected Bin</span>
+              <h3 id="detail-name">Bin 1</h3>
+            </div>
+
+            <div class="bin-details-body">
+              <div class="gauge-wrap">
+                <svg viewBox="0 0 120 120" class="gauge-ring">
+                  <circle cx="60" cy="60" r="52" class="gauge-track" />
+                  <circle cx="60" cy="60" r="52" class="gauge-fill" id="gauge-fill" />
+                </svg>
+                <div class="gauge-center">
+                  <span id="detail-fill">80%</span>
+                  <small>Fill Level</small>
+                </div>
+              </div>
+
+              <div class="bin-fields">
+                <div class="bin-field">
+                  <span class="bin-field-label">Waste Type</span>
+                  <span class="bin-field-value" id="detail-type">Plastic</span>
+                </div>
+                <div class="bin-field">
+                  <span class="bin-field-label">Temperature</span>
+                  <span class="bin-field-value" id="detail-temp">29°C</span>
+                </div>
+                <div class="bin-field">
+                  <span class="bin-field-label">Humidity</span>
+                  <span class="bin-field-value" id="detail-humidity">44%</span>
+                </div>
+                <div class="bin-field">
+                  <span class="bin-field-label">Gas Level</span>
+                  <span class="bin-field-value" id="detail-gas">Normal</span>
+                </div>
+                <div class="bin-field">
+                  <span class="bin-field-label">Last Collected</span>
+                  <span class="bin-field-value" id="detail-collected">2 hrs ago</span>
+                </div>
+                <div class="bin-field">
+                  <span class="bin-field-label">Status</span>
+                  <span class="bin-field-value status-pill" id="detail-status">Nearly Full</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Analytics -->
+      <section class="analytics-section fade-up" id="analytics">
+        <div class="section-heading">
+          <h2>Analytics</h2>
+          <span class="section-sub">Category breakdown &amp; weekly trend</span>
+        </div>
+
+        <div class="charts-grid">
+          <div class="chart-card">
+            <h4>Waste by Category</h4>
+            <canvas id="chart-bar"></canvas>
+          </div>
+          <div class="chart-card">
+            <h4>Waste Distribution</h4>
+            <canvas id="chart-doughnut"></canvas>
+          </div>
+          <div class="chart-card wide">
+            <h4>Weekly Collection Trend</h4>
+            <canvas id="chart-line"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. AI Waste Scanner -->
+      <section class="scanner-section fade-up" id="scanner">
+        <div class="section-heading">
+          <h2>AI Waste Scanner</h2>
+          <span class="section-sub">Drop an image to classify a waste item</span>
+        </div>
+
+        <div class="scanner-card">
+          <div class="upload-area" id="upload-area">
+            <input type="file" id="file-input" accept="image/*" hidden />
+            <div class="upload-icon">📷</div>
+            <p><strong>Drag &amp; drop image</strong> or</p>
+            <button class="choose-file-btn" id="choose-file-btn">Choose File</button>
+            <img id="preview-img" class="preview-img" alt="Preview" hidden />
+          </div>
+
+          <div class="scanner-result" id="scanner-result">
+            <div class="result-placeholder" id="result-placeholder">
+              <span class="result-placeholder-icon">🔍</span>
+              <p>Results will appear here after you analyze an image.</p>
+            </div>
+
+            <div class="result-content" id="result-content" hidden>
+              <div class="result-row">
+                <span class="result-label">Detected</span>
+                <span class="result-main" id="result-name">Plastic Bottle</span>
+              </div>
+              <div class="result-meta">
+                <div class="meta-item">
+                  <span class="meta-label">Confidence</span>
+                  <span class="meta-value" id="result-confidence">98%</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Category</span>
+                  <span class="meta-value" id="result-category">Plastic</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Dispose Into</span>
+                  <span class="meta-value" id="result-bin">♻️ Plastic Bin</span>
+                </div>
+              </div>
+              <div class="ai-tip">
+                <span class="ai-tip-label">AI Tip</span>
+                <p id="result-tip">Remove the cap before recycling — it's sorted separately.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="analyze-btn" id="analyze-btn">Analyze Image</button>
+      </section>
+
+      <footer class="footer">
+        Built for the IT Expo · EcoSort AI Team
+      </footer>
+
+    </main>
+  </div>
+
+<script src="static/js/script.js"></script>
+</body>
+</html>
