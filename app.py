@@ -20,6 +20,7 @@ import threading
 import time
 from flask import Flask, request, jsonify, render_template
 
+import ai_helper
 import database
 #import ai_helper
 

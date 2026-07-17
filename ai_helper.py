@@ -14,6 +14,9 @@ import os
 import base64
 import json
 from groq import Groq
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Any current Groq vision-capable model works here, e.g.:
 #   "llama-3.2-90b-vision-preview" or "llama-3.2-11b-vision-preview"
