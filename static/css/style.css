@@ -574,3 +574,16 @@ input:focus-visible,
   outline: 2px solid var(--primary-dark);
   outline-offset: 2px;
 }
+.go-green-illustration{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.earth-icon{
+    width:180px;
+    height:180px;
+    object-fit:contain;
+    display:block;
+    margin:0 auto;
+}

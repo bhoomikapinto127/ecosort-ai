@@ -6,7 +6,7 @@
 <title>EcoSort AI — Smart Waste Management Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.3/chart.umd.min.js"></script>
+<script src="static/js/chart.umd.min.js"></script>
 <link rel="stylesheet" href="static/css/style.css" />
 </head>
 <body>
@@ -46,7 +46,7 @@
 
       <div class="sidebar-bottom">
         <div class="go-green-card">
-          <div class="go-green-illustration">🌍</div>
+          <div class="go-green-illustration"><img src="{{ url_for('static', filename='images/glob.png') }}" class="earth-icon" alt="Earth"></div>
           <div class="go-green-title">Go Green</div>
           <div class="go-green-sub">Every sort counts.</div>
         </div>
