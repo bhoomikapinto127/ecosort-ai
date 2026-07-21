@@ -8,8 +8,9 @@ smart bins (e.g. glass, mixed/general waste) - it still gets logged for
 the Waste Distribution pie chart on the dashboard.
 
 Setup:
-    pip install groq
-    export GROQ_API_KEY="your-key-here"
+    pip install groq python-dotenv
+    Put GROQ_API_KEY=your-key-here in a .env file in the project root
+    (or export it as an environment variable directly)
 
 Get a free key at https://console.groq.com/keys
 """
@@ -17,8 +18,10 @@ Get a free key at https://console.groq.com/keys
 import os
 import base64
 import json
-from dotenv import load_dotenv
 from groq import Groq
+from dotenv import load_dotenv
+
+load_dotenv()  # reads GROQ_API_KEY from a .env file in the project root, if present
 
 # Any current Groq vision-capable model works here, e.g.:
 #   "llama-3.2-90b-vision-preview" or "llama-3.2-11b-vision-preview"
@@ -26,8 +29,16 @@ from groq import Groq
 MODEL_NAME = "llama-3.2-90b-vision-preview"
 
 VALID_CATEGORIES = ["Plastic", "Organic", "Hazardous", "E-Waste", "Others"]
-load_dotenv()
-client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+
+_api_key = os.environ.get("GROQ_API_KEY")
+if not _api_key:
+    raise RuntimeError(
+        "GROQ_API_KEY is not set. Add GROQ_API_KEY=your-key-here to a .env "
+        "file in the project root, or run: $env:GROQ_API_KEY=\"your-key-here\" "
+        "(PowerShell) before starting the app."
+    )
+
+client = Groq(api_key=_api_key)
 
 
 def _encode_image(image_path):
@@ -49,13 +60,22 @@ def classify_waste_image(image_path):
     base64_image = _encode_image(image_path)
 
     prompt = (
-        "You are a waste-sorting AI for a smart bin system. Look at the image "
-        "and identify the item. Classify it into exactly one of these "
-        "categories: Plastic, Organic, Hazardous, E-Waste, Others. "
+        "You are a waste-sorting AI for a smart bin system. Carefully examine "
+        "the entire image before answering - don't guess based on a quick "
+        "glance. If the image shows a single item, identify that item. If it "
+        "shows a bin or pile with multiple items, identify the waste material "
+        "that visually makes up the largest share of what's in the image (by "
+        "volume, not just what's brightest or most colorful), and name that "
+        "material specifically rather than a single object within it. "
+        "Classify it into exactly one of these categories: "
+        "Plastic, Organic, Hazardous, E-Waste, Others. "
         "Use 'Others' only if the item genuinely doesn't fit the first four "
         "(e.g. glass, textiles, mixed/general waste). "
+        "Set confidence lower (below 0.7) if the image is cluttered, mixed, "
+        "or the item is ambiguous - don't report high confidence unless "
+        "you're actually looking at one clear, unobstructed item. "
         "Respond with ONLY valid JSON, no markdown, no extra text, in this exact shape: "
-        '{"item": "<short item name>", "category": "<one of the 5 categories>", '
+        '{"item": "<short item or material name>", "category": "<one of the 5 categories>", '
         '"confidence": <number 0-1>, "tip": "<one short disposal tip>"}'
     )
 
