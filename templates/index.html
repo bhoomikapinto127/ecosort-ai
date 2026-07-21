@@ -232,7 +232,9 @@
         <div class="scanner-card">
           <div class="upload-area" id="upload-area">
             <input type="file" id="file-input" accept="image/*" hidden />
-            <div class="upload-icon">📷</div>
+            <div class="upload-icon"><img src="{{ url_for('static', filename='images/cam2.png') }}"
+     alt="Upload Camera"
+     class="upload-icon-img"></div>
             <p><strong>Drag &amp; drop image</strong> or</p>
             <button class="choose-file-btn" id="choose-file-btn">Choose File</button>
             <img id="preview-img" class="preview-img" alt="Preview" hidden />
