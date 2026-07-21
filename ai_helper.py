@@ -26,7 +26,8 @@ load_dotenv()  # reads GROQ_API_KEY from a .env file in the project root, if pre
 # Any current Groq vision-capable model works here, e.g.:
 #   "llama-3.2-90b-vision-preview" or "llama-3.2-11b-vision-preview"
 # Check https://console.groq.com/docs/vision for the latest model name.
-MODEL_NAME = "llama-3.2-90b-vision-preview"
+MODEL_NAME = "qwen/qwen3.6-27b"
+
 
 VALID_CATEGORIES = ["Plastic", "Organic", "Hazardous", "E-Waste", "Others"]
 
@@ -98,11 +99,32 @@ def classify_waste_image(image_path):
     )
 
     raw = response.choices[0].message.content.strip()
+    print("\n========== MODEL RESPONSE ==========")
+    print(raw)
+    print("====================================\n")
 
     # Strip accidental markdown fences
-    if raw.startswith("```"):
-        raw = raw.strip("`")
-        raw = raw.replace("json", "", 1).strip()
+    raw = response.choices[0].message.content.strip()
+
+    print("RAW RESPONSE:")
+    print(raw)
+
+# Remove markdown
+    raw = raw.replace("```json", "").replace("```", "").strip()
+
+# Remove thinking section if present
+    if "</think>" in raw:
+      raw = raw.split("</think>")[-1].strip()
+
+# Keep only the JSON
+    start = raw.find("{")
+    end = raw.rfind("}")
+
+    if start != -1 and end != -1:
+     raw = raw[start:end+1]
+
+     print("FINAL JSON:")
+     print(raw)
 
     try:
         result = json.loads(raw)
