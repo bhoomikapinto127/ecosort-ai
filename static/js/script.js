@@ -241,6 +241,7 @@ function initScanner() {
   const chooseBtn = document.getElementById("choose-file-btn");
   const previewImg = document.getElementById("preview-img");
   const analyzeBtn = document.getElementById("analyze-btn");
+  const newImageBtn = document.getElementById("new-image-btn");
 
   chooseBtn.addEventListener("click", () => fileInput.click());
 
@@ -264,11 +265,15 @@ function initScanner() {
     if (file) showPreview(file);
   });
 
-  function showPreview(file) {
-    const url = URL.createObjectURL(file);
-    previewImg.src = url;
-    previewImg.hidden = false;
-  }
+ function showPreview(file) {
+  const url = URL.createObjectURL(file);
+
+  previewImg.src = url;
+  previewImg.hidden = false;
+
+  // Hide the camera image after a file is selected
+  document.getElementById("camera-image").hidden = true;
+}
 
   analyzeBtn.addEventListener("click", () => {
     analyzeBtn.disabled = true;
@@ -298,4 +303,14 @@ function initScanner() {
     }, 1200);
     // --- END MOCK
   });
+  newImageBtn.addEventListener("click", () => {
+  fileInput.value = "";
+  previewImg.src = "";
+  previewImg.hidden = true;
+
+  document.getElementById("result-placeholder").hidden = false;
+  document.getElementById("result-content").hidden = true;
+
+  analyzeBtn.disabled = true;
+});
 }
