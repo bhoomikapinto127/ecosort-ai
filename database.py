@@ -217,7 +217,7 @@ def update_bin_after_waste(category, weight_kg=0.4, item_name=None, confidence=N
 
     updated_bin = None
     if bin_row:
-        new_fill = min(100, bin_row["fill_level"] + 1)
+        new_fill = min(100, bin_row["fill_level"] +max(1,int(weight_kg*5)))
         new_status = _status_from_fill(new_fill)
         cur.execute(
             "UPDATE bins SET fill_level = ?, status = ? WHERE id = ?",
@@ -365,7 +365,7 @@ def get_notifications():
     Powers the bell icon badge: one notification per bin that needs
     attention (Nearly Full / Almost Full / Critical).
     """
-    alert_statuses = {"Nearly Full", "Almost Full", "Critical"}
+    alert_statuses = {"Nearly Full", "Almost Full", "Critical"} 
     conn = get_connection()
     bins = conn.execute("SELECT * FROM bins").fetchall()
     conn.close()
