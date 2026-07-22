@@ -231,12 +231,20 @@
 
         <div class="scanner-card">
           <div class="upload-area" id="upload-area">
-            <input type="file" id="file-input" accept="image/*" hidden />
-            <div class="upload-icon">📷</div>
-            <p><strong>Drag &amp; drop image</strong> or</p>
-            <button class="choose-file-btn" id="choose-file-btn">Choose File</button>
-            <img id="preview-img" class="preview-img" alt="Preview" hidden />
-          </div>
+
+    <img src="{{ url_for('static', filename='images/cam2.png') }}"
+     class="camera-image"
+     id="camera-image">
+
+<img id="preview-img" hidden>
+
+<button type="button" id="choose-file-btn" class="choose-file-btn">
+    Analyze Another Image
+</button>
+
+<input type="file" id="file-input" accept="image/*" hidden>
+</div>
+          
 
           <div class="scanner-result" id="scanner-result">
             <div class="result-placeholder" id="result-placeholder">

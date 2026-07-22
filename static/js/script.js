@@ -228,6 +228,96 @@ function initCharts() {
   });
 }
 
+<<<<<<< HEAD
 // AI Scanner mock block removed — static/js/scanner.js now owns
 // #upload-area / #file-input / #choose-file-btn / #analyze-btn and calls
 // the real POST /api/upload (Flask + Groq) endpoint instead of faking it.
+=======
+/* ---------------- AI Scanner (mock — swap for real API call) ---------------- */
+const MOCK_RESULTS = [
+  { name: "Plastic Bottle", category: "Plastic", bin: "♻️ Plastic Bin", confidence: 98, tip: "Remove the cap before recycling — it's sorted separately." },
+  { name: "Banana Peel", category: "Organic", bin: "🍌 Organic Bin", confidence: 95, tip: "Compostable — keep it out of the plastic stream to avoid contamination." },
+  { name: "AA Battery", category: "E-Waste", bin: "🔋 E-Waste Bin", confidence: 91, tip: "Never bin with organics — batteries need a dedicated e-waste drop point." },
+  { name: "Cleaning Solvent", category: "Hazardous", bin: "🧪 Hazardous Bin", confidence: 88, tip: "Seal the container and flag it for manual pickup." },
+];
+
+function initScanner() {
+  const uploadArea = document.getElementById("upload-area");
+  const fileInput = document.getElementById("file-input");
+  const chooseBtn = document.getElementById("choose-file-btn");
+  const previewImg = document.getElementById("preview-img");
+  const analyzeBtn = document.getElementById("analyze-btn");
+  const newImageBtn = document.getElementById("new-image-btn");
+
+  chooseBtn.addEventListener("click", () => fileInput.click());
+
+  fileInput.addEventListener("change", () => {
+    if (fileInput.files[0]) showPreview(fileInput.files[0]);
+  });
+
+  ["dragover", "dragenter"].forEach((evt) =>
+    uploadArea.addEventListener(evt, (e) => {
+      e.preventDefault();
+      uploadArea.classList.add("drag-over");
+    })
+  );
+  ["dragleave", "dragend"].forEach((evt) =>
+    uploadArea.addEventListener(evt, () => uploadArea.classList.remove("drag-over"))
+  );
+  uploadArea.addEventListener("drop", (e) => {
+    e.preventDefault();
+    uploadArea.classList.remove("drag-over");
+    const file = e.dataTransfer.files[0];
+    if (file) showPreview(file);
+  });
+
+ function showPreview(file) {
+  const url = URL.createObjectURL(file);
+
+  previewImg.src = url;
+  previewImg.hidden = false;
+
+  // Hide the camera image after a file is selected
+  document.getElementById("camera-image").hidden = true;
+}
+
+  analyzeBtn.addEventListener("click", () => {
+    analyzeBtn.disabled = true;
+    analyzeBtn.textContent = "Analyzing…";
+
+    const placeholder = document.getElementById("result-placeholder");
+    const content = document.getElementById("result-content");
+
+    // --- MOCK: replace this block with a real fetch() to the Flask/Gemini
+    //     backend once it's ready, e.g.:
+    //     const res = await fetch('/api/classify', { method: 'POST', body: formData });
+    //     const data = await res.json();
+    setTimeout(() => {
+      const result = MOCK_RESULTS[Math.floor(Math.random() * MOCK_RESULTS.length)];
+
+      document.getElementById("result-name").textContent = result.name;
+      document.getElementById("result-confidence").textContent = `${result.confidence}%`;
+      document.getElementById("result-category").textContent = result.category;
+      document.getElementById("result-bin").textContent = result.bin;
+      document.getElementById("result-tip").textContent = result.tip;
+
+      placeholder.hidden = true;
+      content.hidden = false;
+
+      analyzeBtn.disabled = false;
+      analyzeBtn.textContent = "Analyze Image";
+    }, 1200);
+    // --- END MOCK
+  });
+  newImageBtn.addEventListener("click", () => {
+  fileInput.value = "";
+  previewImg.src = "";
+  previewImg.hidden = true;
+
+  document.getElementById("result-placeholder").hidden = false;
+  document.getElementById("result-content").hidden = true;
+
+  analyzeBtn.disabled = true;
+});
+}
+>>>>>>> 0097f1defeba04c58229c57cbb5d1a27ec089d6b
