@@ -1,7 +1,8 @@
 // ============================================================
 // EcoSort AI — Dashboard Logic
-// Frontend-only simulation: mock IoT data + mock AI classification.
-// Swap the marked sections for real API calls once the backend is ready.
+// Frontend-only simulation: mock IoT data + real AI classification
+// (AI Scanner is handled by scanner.js, which calls the real /api/upload
+// endpoint - the mock scanner block has been removed from this file).
 // ============================================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -9,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initBins();
   initCountUp();
   initCharts();
-  initScanner();
+  // initScanner() removed — scanner.js now owns the AI Scanner section
 });
 
 /* ---------------- Date ---------------- */
@@ -227,6 +228,11 @@ function initCharts() {
   });
 }
 
+HEAD
+// AI Scanner mock block removed — static/js/scanner.js now owns
+// #upload-area / #file-input / #choose-file-btn / #analyze-btn and calls
+// the real POST /api/upload (Flask + Groq) endpoint instead of faking it.
+
 /* ---------------- AI Scanner (mock — swap for real API call) ---------------- */
 const MOCK_RESULTS = [
   { name: "Plastic Bottle", category: "Plastic", bin: "♻️ Plastic Bin", confidence: 98, tip: "Remove the cap before recycling — it's sorted separately." },
@@ -314,3 +320,4 @@ function initScanner() {
   analyzeBtn.disabled = true;
 });
 }
+
