@@ -95,7 +95,8 @@ def classify_waste_image(image_path):
             }
         ],
         temperature=0.2,
-        max_tokens=300,
+        max_tokens=800,
+        reasoning_effort="none",
     )
 
     raw = response.choices[0].message.content.strip()
@@ -137,11 +138,16 @@ def classify_waste_image(image_path):
             "confidence": float(result.get("confidence", 0.85)),
             "tip": result.get("tip", "Please dispose of this responsibly."),
         }
-    except (json.JSONDecodeError, ValueError, TypeError):
-        # Safe fallback so the demo never crashes on a bad model response
+    except (json.JSONDecodeError, ValueError, TypeError) as e:
+        print("PARSE ERROR:", repr(e), flush=True)
+        print("RAW THAT FAILED TO PARSE:", repr(raw), flush=True)
         return {
             "item": "Unrecognized item",
             "category": "Others",
             "confidence": 0.5,
             "tip": "Could not confidently classify — please check manually.",
         }
+    print("\n========== MODEL RESPONSE ==========", flush=True)
+    print(raw, flush=True)
+    print("====================================\n", flush=True)
+  
