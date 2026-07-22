@@ -228,11 +228,11 @@ function initCharts() {
   });
 }
 
-<<<<<<< HEAD
+HEAD
 // AI Scanner mock block removed — static/js/scanner.js now owns
 // #upload-area / #file-input / #choose-file-btn / #analyze-btn and calls
 // the real POST /api/upload (Flask + Groq) endpoint instead of faking it.
-=======
+
 /* ---------------- AI Scanner (mock — swap for real API call) ---------------- */
 const MOCK_RESULTS = [
   { name: "Plastic Bottle", category: "Plastic", bin: "♻️ Plastic Bin", confidence: 98, tip: "Remove the cap before recycling — it's sorted separately." },
@@ -320,4 +320,4 @@ function initScanner() {
   analyzeBtn.disabled = true;
 });
 }
->>>>>>> 0097f1defeba04c58229c57cbb5d1a27ec089d6b
+
