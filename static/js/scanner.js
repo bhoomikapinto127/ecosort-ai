@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const resultCategory = document.getElementById("result-category");
     const resultConfidence = document.getElementById("result-confidence");
     const resultTip = document.getElementById("result-tip");
+    const resultBin = document.getElementById("result-bin");
 
     const uploadArea = document.getElementById("upload-area");
 
@@ -68,6 +69,9 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             const data = await response.json();
+            alert(JSON.stringify(data));
+            console.log("API RESPONSE:",data);
+
 
             if (!response.ok) {
                 alert(data.error || "Upload failed");
@@ -84,7 +88,14 @@ document.addEventListener("DOMContentLoaded", () => {
             resultConfidence.textContent =
                 Math.round(data.confidence * 100) + "%";
             resultTip.textContent = data.tip;
-
+            const CATEGORY_TO_BIN = {
+    "Plastic": "♻️ Plastic Bin",
+    "Organic": "🍌 Organic Bin",
+    "Hazardous": "🧪 Hazardous Bin",
+    "E-Waste": "🔋 E-Waste Bin",
+    "Others": "🗑️ General Waste (no smart bin)"
+};
+        
         } catch (err) {
             console.error(err);
             alert("Server connection failed.");
