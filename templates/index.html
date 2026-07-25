@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>EcoSort AI — Smart Waste Management Dashboard</title>
@@ -16,32 +18,47 @@
     <!-- ============ SIDEBAR ============ -->
     <aside class="sidebar">
       <div class="sidebar-top">
-        <div class="logo">🌿 <span>EcoSort AI</span></div>
+        <div class="logo"><div class="logo">
+    <img src="{{ url_for('static', filename='images/clover.png') }}" 
+         alt="EcoSort AI Logo">
+    <span>EcoSort</span>
+</div>
         <div class="logo-sub">Smart Waste Management</div>
       </div>
 
       <nav class="nav">
         <a href="#" class="nav-item active" data-section="dashboard">
-          <span class="nav-icon">▣</span> Dashboard
+          <span class="nav-icon"><i class="fa-solid fa-chart-line"></i></span> Dashboard
         </a>
         <a href="#bins" class="nav-item" data-section="bins">
           <span class="nav-icon">🗑</span> Smart Bins
         </a>
         <a href="#scanner" class="nav-item" data-section="scanner">
-          <span class="nav-icon"></span> AI Scanner
+          <span class="nav-icon">
+    <i class="fa-solid fa-camera"></i>
+</span>
+AI Scanner
         </a>
         <a href="#analytics" class="nav-item" data-section="analytics">
-          <span class="nav-icon"></span> Analytics
+          <span class="nav-icon">
+    <i class="fa-solid fa-chart-pie"></i>
+</span>
+Analytics
         </a>
         <a href="#" class="nav-item" data-section="history">
-          <span class="nav-icon"></span> History
-        </a>
+<span class="nav-icon">
+    <i class="fa-solid fa-clock-rotate-left"></i>
+</span>
+History        </a>
         <a href="#" class="nav-item" data-section="reports">
-          <span class="nav-icon"></span> Reports
-        </a>
-        <a href="#" class="nav-item" data-section="settings">
-          <span class="nav-icon">⚙</span> Settings
-        </a>
+    <span class="nav-icon"><i class="fa-solid fa-file-lines"></i></span>
+    Reports
+</a>
+
+<a href="#" class="nav-item" data-section="settings">
+    <span class="nav-icon"><i class="fa-solid fa-gear"></i></span>
+    Settings
+</a>
       </nav>
 
       <div class="sidebar-bottom">
@@ -65,8 +82,11 @@
         <div class="topbar-right">
           <div class="search-box">
             <span class="search-icon">⌕</span>
-            <input type="text" placeholder="Search bins, reports, waste types…" />
-          </div>
+<input
+  type="text"
+  id="global-search"
+  placeholder="Search bins, reports, waste types"
+/>          </div>
           <button class="icon-btn" aria-label="Notifications">
             🔔 <span class="notif-dot"></span>
           </button>
@@ -289,7 +309,6 @@
     </main>
   </div>
 
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
-<script src="{{ url_for('static', filename='js/scanner.js') }}"></script>
+<script src="static/js/script.js"></script>
 </body>
 </html>
