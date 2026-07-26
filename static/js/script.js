@@ -44,10 +44,22 @@ function initCountUp() {
 
 /* ---------------- Smart Bins ---------------- */
 const STREAM_META = {
-  plastic: { label: "Plastic", icon: "♻️" },
-  organic: { label: "Organic", icon: "🍌" },
-  hazard: { label: "Hazardous", icon: "🧪" },
-  ewaste: { label: "E-Waste", icon: "🔋" },
+  plastic: {
+    label: "Plastic",
+    image: "/static/images/plastic.png"
+  },
+  organic: {
+    label: "Organic",
+    image: "/static/images/organic.png"
+  },
+  hazard: {
+    label: "Hazardous",
+    image: "/static/images/hazard.png"
+  },
+  ewaste: {
+    label: "E-Waste",
+    image: "/static/images/ewaste.png"
+  }
 };
 
 // Simulated IoT state — replace with live sensor/API data later.
@@ -94,7 +106,10 @@ function renderBins() {
       return `
         <div class="bin-card ${selected}" data-id="${b.id}" tabindex="0" role="button" aria-pressed="${b.id === selectedBinId}">
           <div class="bin-card-top">
-            <span class="bin-card-name">${meta.icon} ${b.name}</span>
+<span class="bin-card-name">
+  <img src="/static/images/${b.stream}.png" class="bin-icon">
+  ${b.name}
+</span>
             <span class="status-dot ${status.color}" title="${status.text}"></span>
           </div>
           <div class="bin-card-type">${meta.label}</div>
@@ -117,6 +132,53 @@ function renderBins() {
         e.preventDefault();
         selectBin(Number(card.dataset.id));
       }
+    });
+  });
+}
+function renderFilteredBins(filteredBins) {
+  const grid = document.getElementById("bins-grid");
+
+  grid.innerHTML = filteredBins
+    .map((b) => {
+      const meta = STREAM_META[b.stream];
+      const status = statusForFill(b.fill);
+      const selected = b.id === selectedBinId ? "selected" : "";
+
+      return `
+        <div class="bin-card ${selected}" data-id="${b.id}" tabindex="0" role="button">
+          <div class="bin-card-top">
+            <span class="bin-card-name">
+              <img src="${meta.image}" class="bin-icon" alt="${meta.label}">
+              ${b.name}
+            </span>
+
+            <span class="status-dot ${status.color}" title="${status.text}"></span>
+          </div>
+
+          <div class="bin-card-type">${meta.label}</div>
+
+          <div class="bin-progress-track">
+            <div
+              class="bin-progress-fill"
+              style="width:${b.fill}%; background:${statusColorHex(status.color)}">
+            </div>
+          </div>
+
+          <div class="bin-card-footer">
+            <span><strong>${b.fill}%</strong> full</span>
+            <span>${status.text}</span>
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+
+  // Re-enable clicking on the filtered cards
+  document.querySelectorAll(".bin-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      selectedBinId = Number(card.dataset.id);
+      renderBins();
+      renderBinDetails();
     });
   });
 }
@@ -320,4 +382,39 @@ function initScanner() {
   analyzeBtn.disabled = true;
 });
 }
+/* ---------------- Global Search ---------------- */
 
+const searchInput = document.getElementById("global-search");
+
+if (searchInput) {
+  searchInput.addEventListener("input", function () {
+    const query = this.value.toLowerCase().trim();
+
+    if (!query) {
+      renderBins();
+      return;
+    }
+
+    const match = bins.find((bin) => {
+      const meta = STREAM_META[bin.stream];
+
+      return (
+        bin.name.toLowerCase().includes(query) ||
+        meta.label.toLowerCase().includes(query) ||
+        bin.stream.toLowerCase().includes(query)
+      );
+    });
+
+    if (match) {
+      selectedBinId = match.id;
+
+      renderBins();
+      renderBinDetails();
+
+      document.getElementById("bins").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  });
+}
