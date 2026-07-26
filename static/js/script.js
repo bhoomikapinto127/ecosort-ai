@@ -91,7 +91,7 @@ function initBins() {
       const temp = Math.max(18, Math.min(34, b.temp + (Math.random() - 0.5) * 1.2));
       return { ...b, fill, temp: Math.round(temp) };
     });
-    renderBins();
+    runSearch(activeSearchQuery); // respects whatever's currently typed in search
     renderBinDetails();
   }, 6000);
 }
@@ -384,37 +384,48 @@ function initScanner() {
 }
 /* ---------------- Global Search ---------------- */
 
+let activeSearchQuery = "";
+
 const searchInput = document.getElementById("global-search");
 
 if (searchInput) {
   searchInput.addEventListener("input", function () {
-    const query = this.value.toLowerCase().trim();
-
-    if (!query) {
-      renderBins();
-      return;
-    }
-
-    const match = bins.find((bin) => {
-      const meta = STREAM_META[bin.stream];
-
-      return (
-        bin.name.toLowerCase().includes(query) ||
-        meta.label.toLowerCase().includes(query) ||
-        bin.stream.toLowerCase().includes(query)
-      );
-    });
-
-    if (match) {
-      selectedBinId = match.id;
-
-      renderBins();
-      renderBinDetails();
-
-      document.getElementById("bins").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    }
+    activeSearchQuery = this.value.toLowerCase().trim();
+    runSearch(activeSearchQuery);
   });
+}
+
+function runSearch(query) {
+  const grid = document.getElementById("bins-grid");
+
+  if (!query) {
+    renderBins();
+    return;
+  }
+
+  const filtered = bins.filter((bin) => {
+    const meta = STREAM_META[bin.stream];
+    const status = statusForFill(bin.fill);
+    return (
+      bin.name.toLowerCase().includes(query) ||
+      meta.label.toLowerCase().includes(query) ||
+      bin.stream.toLowerCase().includes(query) ||
+      status.text.toLowerCase().includes(query)
+    );
+  });
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<p class="no-results">No bins match "${query}"</p>`;
+    return;
+  }
+
+  renderFilteredBins(filtered);
+
+  // Keep the details panel in sync with what's visible
+  if (!filtered.some((b) => b.id === selectedBinId)) {
+    selectedBinId = filtered[0].id;
+    renderBinDetails();
+  }
+
+  document.getElementById("bins").scrollIntoView({ behavior: "smooth", block: "start" });
 }
