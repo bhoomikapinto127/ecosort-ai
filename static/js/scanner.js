@@ -100,6 +100,7 @@ const CATEGORY_TO_BIN = {
 };
 
 resultBin.textContent = CATEGORY_TO_BIN[data.category];
+window.updateBin(data.category);
         
         } catch (err) {
             console.error(err);
