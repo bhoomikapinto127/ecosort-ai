@@ -623,6 +623,9 @@ input:focus-visible,
     object-fit: contain;
     margin-bottom: 15px;
 }
+.camera-image[hidden] {
+    display: none !important;
+}
 .choose-file-btn {
     background: #2e7d32;
     color: white;

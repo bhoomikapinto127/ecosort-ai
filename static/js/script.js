@@ -340,7 +340,7 @@ function initScanner() {
   previewImg.hidden = false;
 
   // Hide the camera image after a file is selected
-  document.getElementById("camera-image").hidden = true;
+document.getElementById("camera-image").style.display = "none";
 }
 
   analyzeBtn.addEventListener("click", () => {

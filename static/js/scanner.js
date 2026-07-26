@@ -40,9 +40,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const reader = new FileReader();
 
         reader.onload = function (e) {
-            previewImg.src = e.target.result;
-            previewImg.hidden = false;
-        };
+    previewImg.src = e.target.result;
+    previewImg.hidden = false;
+
+    // Hide file1.png after an image is selected
+    document.getElementById("camera-image").style.display = "none";
+    };
 
         reader.readAsDataURL(file);
     });
