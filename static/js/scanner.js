@@ -69,7 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             const data = await response.json();
-            alert(JSON.stringify(data));
             console.log("API RESPONSE:",data);
 
 
@@ -84,17 +83,20 @@ document.addEventListener("DOMContentLoaded", () => {
             resultContent.hidden = false;
 
             resultName.textContent = data.item;
-            resultCategory.textContent = data.category;
-            resultConfidence.textContent =
-                Math.round(data.confidence * 100) + "%";
-            resultTip.textContent = data.tip;
-            const CATEGORY_TO_BIN = {
+resultCategory.textContent = data.category;
+resultConfidence.textContent =
+    Math.round(data.confidence * 100) + "%";
+resultTip.textContent = data.tip;
+
+const CATEGORY_TO_BIN = {
     "Plastic": "♻️ Plastic Bin",
     "Organic": "🍌 Organic Bin",
     "Hazardous": "🧪 Hazardous Bin",
     "E-Waste": "🔋 E-Waste Bin",
     "Others": "🗑️ General Waste (no smart bin)"
 };
+
+resultBin.textContent = CATEGORY_TO_BIN[data.category];
         
         } catch (err) {
             console.error(err);
