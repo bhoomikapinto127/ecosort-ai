@@ -394,6 +394,26 @@ if (searchInput) {
     runSearch(activeSearchQuery);
   });
 }
+window.updateBin = function(category) {
+
+    const map = {
+        "Plastic": "plastic",
+        "Organic": "organic",
+        "Hazardous": "hazard",
+        "E-Waste": "ewaste"
+    };
+
+    const stream = map[category];
+
+    const bin = bins.find(b => b.stream === stream);
+
+    if (bin) {
+        bin.fill = Math.min(bin.fill + 5, 100);
+
+        renderBins();
+        renderBinDetails();
+    }
+};
 
 function runSearch(query) {
   const grid = document.getElementById("bins-grid");
