@@ -536,7 +536,13 @@ button { font-family: inherit; cursor: pointer; border: none; }
   text-align: center;
   color: var(--text-muted);
 }
-.result-placeholder-icon { font-size: 26px; display: block; margin-bottom: 8px; }
+.result-placeholder-icon {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 15px;
+}
 .result-placeholder p { font-size: 13px; margin: 0; }
 
 .result-content { width: 100%; animation: fadeUp 400ms ease both; }

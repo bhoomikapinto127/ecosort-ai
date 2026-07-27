@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const chooseBtn = document.getElementById("choose-file-btn");
+    const cameraBtn = document.getElementById("camera-btn");
     const fileInput = document.getElementById("file-input");
     const previewImg = document.getElementById("preview-img");
 
@@ -15,11 +16,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const addToBinBtn = document.getElementById("add-to-bin-btn");
 
     const uploadArea = document.getElementById("upload-area");
+    const cameraBtn = document.getElementById("camera-btn");
+const captureBtn = document.getElementById("capture-btn");
+const closeCameraBtn = document.getElementById("close-camera-btn");
+const cameraPreview = document.getElementById("camera-preview");
+const cameraCanvas = document.getElementById("camera-canvas");
 
+<<<<<<< HEAD
     // Keep track of the most recent classification so the
     // "Add to Bin" button knows what category to log.
     let currentCategory = null;
 
+=======
+let cameraStream = null;
+>>>>>>> 4b88401b01953b342eaef901dba88a5474a780cb
     // Create Analyze button if it doesn't exist
     let analyzeBtn = document.getElementById("analyze-btn");
 
@@ -33,9 +43,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Open file picker
     chooseBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        fileInput.click();
-    });
+    e.preventDefault();
+    fileInput.removeAttribute("capture"); // Open gallery/file picker
+    fileInput.click();
+});
+
+cameraBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    fileInput.setAttribute("capture", "environment"); // Open camera
+    fileInput.click();
+});
 
     // Preview image
     fileInput.addEventListener("change", () => {
@@ -131,6 +148,7 @@ if (addToBinBtn) {
         analyzeBtn.innerText = "Analyze Image";
 
     });
+<<<<<<< HEAD
 
     // "Add to Bin" — confirms the disposal and logs the item
     // into the matching smart bin (bumps its fill level via
@@ -154,4 +172,69 @@ window.updateBin(currentCategory);
             }, 1500);
         });
     }
+=======
+});
+// Open webcam
+cameraBtn.addEventListener("click", async () => {
+    try {
+        cameraStream = await navigator.mediaDevices.getUserMedia({
+            video: true
+        });
+
+        cameraPreview.srcObject = cameraStream;
+
+        cameraPreview.hidden = false;
+        captureBtn.hidden = false;
+        closeCameraBtn.hidden = false;
+
+        document.getElementById("camera-image").style.display = "none";
+        previewImg.hidden = true;
+
+    } catch (err) {
+        alert("Unable to access camera.");
+        console.error(err);
+    }
+});
+
+// Capture image
+captureBtn.addEventListener("click", () => {
+
+    const ctx = cameraCanvas.getContext("2d");
+
+    cameraCanvas.width = cameraPreview.videoWidth;
+    cameraCanvas.height = cameraPreview.videoHeight;
+
+    ctx.drawImage(
+        cameraPreview,
+        0,
+        0,
+        cameraCanvas.width,
+        cameraCanvas.height
+    );
+
+    previewImg.src = cameraCanvas.toDataURL("image/png");
+    previewImg.hidden = false;
+
+    cameraPreview.hidden = true;
+    captureBtn.hidden = true;
+    closeCameraBtn.hidden = true;
+
+    if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+    }
+});
+
+// Close camera
+closeCameraBtn.addEventListener("click", () => {
+
+    if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+    }
+
+    cameraPreview.hidden = true;
+    captureBtn.hidden = true;
+    closeCameraBtn.hidden = true;
+
+    document.getElementById("camera-image").style.display = "block";
+>>>>>>> 4b88401b01953b342eaef901dba88a5474a780cb
 });
