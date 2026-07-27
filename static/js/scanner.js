@@ -12,7 +12,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const resultTip = document.getElementById("result-tip");
     const resultBin = document.getElementById("result-bin");
 
+    const addToBinBtn = document.getElementById("add-to-bin-btn");
+
     const uploadArea = document.getElementById("upload-area");
+
+    // Keep track of the most recent classification so the
+    // "Add to Bin" button knows what category to log.
+    let currentCategory = null;
 
     // Create Analyze button if it doesn't exist
     let analyzeBtn = document.getElementById("analyze-btn");
@@ -48,6 +54,13 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
         reader.readAsDataURL(file);
+
+        // A new image was chosen — reset the Add to Bin button
+        // so the user can't re-log a stale result.
+        if (addToBinBtn) {
+            addToBinBtn.disabled = false;
+            addToBinBtn.innerText = "Add to Bin";
+        }
     });
 
     // Upload image
@@ -100,7 +113,14 @@ const CATEGORY_TO_BIN = {
 };
 
 resultBin.textContent = CATEGORY_TO_BIN[data.category];
-window.updateBin(data.category);
+
+// Remember the category and re-arm the Add to Bin button
+// for this new result.
+currentCategory = data.category;
+if (addToBinBtn) {
+    addToBinBtn.disabled = false;
+    addToBinBtn.innerText = "Add to Bin";
+}
         
         } catch (err) {
             console.error(err);
@@ -111,4 +131,27 @@ window.updateBin(data.category);
         analyzeBtn.innerText = "Analyze Image";
 
     });
+
+    // "Add to Bin" — confirms the disposal and logs the item
+    // into the matching smart bin (bumps its fill level via
+    // window.updateBin, defined in script.js).
+    if (addToBinBtn) {
+        addToBinBtn.addEventListener("click", () => {
+            if (!currentCategory) {
+                alert("Analyze an image first.");
+                return;
+            }
+window.updateBin(currentCategory);
+
+
+            addToBinBtn.disabled = true;
+            addToBinBtn.innerText = "✓ Added";
+
+            setTimeout(() => {
+                addToBinBtn.innerText = "Add to Bin";
+                // Stays disabled until a new image is analyzed,
+                // so the same item can't be double-logged.
+            }, 1500);
+        });
+    }
 });
