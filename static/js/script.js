@@ -46,7 +46,7 @@ function initCountUp() {
 const STREAM_META = {
   plastic: {
     label: "Plastic",
-    image: "/static/images/plastic.png"
+    image: "/static/images/pLastic.png"
   },
   organic: {
     label: "Organic",
