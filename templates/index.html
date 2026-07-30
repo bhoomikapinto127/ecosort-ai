@@ -105,7 +105,7 @@ History        </a>
 
         <div class="summary-grid">
           <div class="stat-card" data-stream="plastic">
-            <div class="stat-icon-wrap plastic"></div>
+            <div class="stat-icon-wrap plastic">♻️</div>
             <div class="stat-info">
               <div class="stat-label">Plastic</div>
               <div class="stat-value" data-count="420">0 kg</div>
@@ -114,7 +114,7 @@ History        </a>
           </div>
 
           <div class="stat-card" data-stream="organic">
-            <div class="stat-icon-wrap organic"></div>
+            <div class="stat-icon-wrap organic">🍌</div>
             <div class="stat-info">
               <div class="stat-label">Organic</div>
               <div class="stat-value" data-count="280">0 kg</div>
@@ -123,7 +123,7 @@ History        </a>
           </div>
 
           <div class="stat-card" data-stream="ewaste">
-            <div class="stat-icon-wrap ewaste"></div>
+            <div class="stat-icon-wrap ewaste">🔋</div>
             <div class="stat-info">
               <div class="stat-label">E-Waste</div>
               <div class="stat-value" data-count="90">0 kg</div>
@@ -132,7 +132,7 @@ History        </a>
           </div>
 
           <div class="stat-card" data-stream="hazard">
-            <div class="stat-icon-wrap hazard"></div>
+            <div class="stat-icon-wrap hazard">🧪</div>
             <div class="stat-info">
               <div class="stat-label">Hazardous</div>
               <div class="stat-value" data-count="40">0 kg</div>
@@ -141,7 +141,7 @@ History        </a>
           </div>
 
           <div class="stat-card highlight" data-stream="total">
-            <div class="stat-icon-wrap total"></div>
+            <div class="stat-icon-wrap total">⚖️</div>
             <div class="stat-info">
               <div class="stat-label">Total Waste</div>
               <div class="stat-value" data-count="1284">0 kg</div>
@@ -150,7 +150,7 @@ History        </a>
           </div>
 
           <div class="stat-card highlight" data-stream="co2">
-            <div class="stat-icon-wrap co2"></div>
+            <div class="stat-icon-wrap co2">🌱</div>
             <div class="stat-info">
               <div class="stat-label">CO₂ Saved</div>
               <div class="stat-value" data-count="320">0 kg</div>
@@ -267,6 +267,17 @@ History        </a>
       Choose Image
   </button>
 
+  <button type="button" id="camera-btn" class="choose-file-btn">
+      Use Camera
+  </button>
+
+  <button type="button" id="capture-btn" class="choose-file-btn" hidden>
+      Capture Photo
+  </button>
+
+  <button type="button" id="close-camera-btn" class="choose-file-btn" hidden>
+      Close Camera
+  </button>
 </div>
 
 <input type="file" id="file-input" accept="image/*" hidden>
