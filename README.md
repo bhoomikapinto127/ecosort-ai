@@ -141,6 +141,3 @@ This project currently simulates IoT bin data on the frontend (see [Known Limita
 
 Built for the IT Expo by the **EcoSort AI Team**.
 
-## License
-
-_(add a license if you plan to share/open-source this, e.g. MIT)_
