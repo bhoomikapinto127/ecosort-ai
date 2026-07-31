@@ -1,6 +1,9 @@
 # EcoSort AI — Smart Waste Management Dashboard
 
 An AI-powered waste management dashboard that classifies waste items from an image and simulates a network of smart IoT bins. Built for the IT Expo.
+LIVE DEMO:
+https://ecosort-ai-j54v.onrender.com
+
 
 ## Features
 
@@ -75,10 +78,10 @@ Then open **http://127.0.0.1:5000/** in your browser.
 ## Screenshots
 
 ### Dashboard
-![Dashboard overview](docs/screenshots/dashboard.png)
+![Dashboard overview](docs/screenshots/demo.mp4)
 
 ### AI Waste Scanner
-![Scanner result](docs/screenshots/scanner-result.png)
+![Scanner result](docs/screenshots/scanner.mp4)
 
 ### Smart Bins
 ![Smart bins grid and detail panel](docs/screenshots/smart-bins.png)
@@ -86,7 +89,6 @@ Then open **http://127.0.0.1:5000/** in your browser.
 ### Analytics
 ![Analytics charts](docs/screenshots/analytics.png)
 
-> Screenshots live in `docs/screenshots/`. Replace these with your own captures (Win+Shift+S / Cmd+Shift+4) as the app evolves.
 
 ## Real-World IoT Deployment
 
